@@ -39,7 +39,7 @@ func_set_system_config_piratebox_hostname(){
 	local old_value=$1; shift
 
 	echo "Changing hostname for PirateBox with install_piratebox.sh"
- 	. $piratebox_install_sh "$piratebox_config" hostname "$value"
+ 	. $piratebox_install_sh hostname "$value"
 }
 
 
