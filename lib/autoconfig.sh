@@ -13,16 +13,23 @@ auto_config_lookup_and_set(){
      $DEBUG && echo "lookup_set: filename            - $filename"
      $DEBUG && echo "lookup_set: current_status_file - $current_status_file"
 
-    if [ -f $filename ] ; then
+    if [ -f "$filename" ] ; then
+        current_value=$( head -n 1 "$current_status_file" )
+        new_value=$( head -n 1 "$filename" )
 
 	$DEBUG && echo "Config file found"
-	$DEBUG && echo -n "   tmp (current): " && cat $current_status_file
-	$DEBUG && echo -n "   config : " &&  cat $filename
+	$DEBUG && echo "   tmp (current): '${current_value}'"
+	$DEBUG && echo "   config : '${new_value}'"
 
-        if [ "`cat $filename`"  != "`cat $current_status_file`" ] ; then
+        if [ "${current_value}"  != "${new_value}" ] ; then
+            if test ! -z "${new_value}" ; then
                 echo " $config - configuration is different, setting to new value"
-                func_set_system_config_$config "`cat $filename `"  "`cat $current_status_file`" 
+                func_set_system_config_$config "$new_value" "$current_value"
                 changed=1
+             else
+                echo "ERROR - $config , $filename , empty new value not allowed .'$new_value'"
+                return 0
+             fi
         fi
     fi
 
