@@ -21,7 +21,7 @@ piratebox_install_sh=/opt/piratebox/bin/install_piratebox.sh
 # Read configuration out of the system and save it to piratebox_hostname_system_config depending on the 
 #   parameter
 func_read_system_config_piratebox_hostname() {
-	local path=$1 ; shift
+	local path="$1" ; shift
 
 	echo "Extracting HOST parameter from $piratebox_config"
 	config_line=$(grep HOST=\" $piratebox_config )
@@ -29,17 +29,17 @@ func_read_system_config_piratebox_hostname() {
 	config_line=${config_line#HOST=\"}
 	config_value=${config_line%\"}
 
-	echo $config_value  >  $path/$piratebox_hostname_config_file
+	echo "$config_value"  >  "$path/$piratebox_hostname_config_file"
 }
 
 # Parse the first parameter with the changed value
 #  do the stuff you need to do for changing the configuratioj
 func_set_system_config_piratebox_hostname(){
-	local value=$1 ; shift
-	local old_value=$1; shift
+	local value="$1" ; shift
+	local old_value="$1"; shift
 
-	echo "Changing hostname for PirateBox with install_piratebox.sh"
- 	. $piratebox_install_sh hostname "$value"
+	echo "Changing hostname it '$value' for PirateBox with install_piratebox.sh"
+ 	"$piratebox_install_sh" hostname "$value"
 }
 
 
